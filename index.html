@@ -119,16 +119,8 @@
             body {
                 background-color: white;
                 padding: 20px;
-
-            } else if (selectedType === 'adult') {
-                const projectInfo = document.getElementById('adultProjectInfo').value || 'No se proporcionó información.';
-                message = `*Cotización de Pictoria*%0A%0A` +
-                    `*Tipo de sesión:* +18%0A%0A` +
-                    `*Descripción del proyecto:*%0A${projectInfo}%0A%0A` +
-                    `*Nota:* Esta sesión requiere cotización personalizada.%0A%0A`;
-            }
             
-            .no-print {
+            } .no-print {
                 display: none !important;
             }
             
@@ -292,13 +284,7 @@
 <span class="text-sm text-gray-500">Bodas, XV años, fiestas, conciertos, etc.</span>
 </label>
 </div>
-<div class="hover-scale">
-<input class="hidden peer" id="adult" name="sessionType" type="radio" value="adult"/>
-<label class="block border border-gray-200 rounded-lg p-4 cursor-pointer peer-checked:border-black peer-checked:bg-gray-50 transition-all" for="adult">
-<span class="block font-medium">+18</span>
-<span class="text-sm text-gray-500">Sesiones para ambos sexos enfocadas a plataformas como OnlyFans</span>
-</label>
-</div>
+
 <div class="hover-scale">
 <input class="hidden peer" id="mascotas" name="sessionType" type="radio" value="mascotas"/>
 <label class="block border border-gray-200 rounded-lg p-4 cursor-pointer peer-checked:border-black peer-checked:bg-gray-50 transition-all" for="mascotas">
@@ -381,18 +367,7 @@
 <input class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" id="sessionDateTimeEvent" type="datetime-local"/>
 </div>
 </div>
-<div class="fade-in hidden" id="adultOptions">
-<div class="mb-6">
-<label class="block text-sm font-medium mb-2" for="adultProjectInfo">Descripción del proyecto</label>
-<textarea class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent" id="adultProjectInfo" placeholder="Describe tu proyecto, por ejemplo: 
-- Tipo de contenido
-- Estilo deseado
-- Locación o ideas específicas" rows="4"></textarea>
-<p class="text-xs text-gray-500 mt-1" data-aid="t15">
-                                    Esta opción no muestra costos, la cotización será personalizada.
-                                </p>
-</div>
-<p class="text-sm text-red-500 font-medium mt-2" data-aid="t16">Costo desde $1000 MXN. Enviar mensaje para acordar costos.</p></div>
+
 </div>
 <div class="border-t border-gray-200 pt-6 print-section">
 <h3 class="text-xl font-medium mb-4" data-aid="t17">Resumen de precios</h3>
@@ -552,7 +527,6 @@
         const sessionTypeRadios = document.querySelectorAll('input[name="sessionType"]');
         const standardOptions = document.getElementById('standardOptions');
         const eventOptions = document.getElementById('eventOptions');
-        const adultOptions = document.getElementById('adultOptions');
 
         // Standard session elements
         const sessionHoursStandardSlider = document.getElementById('sessionHoursStandard');
@@ -631,23 +605,12 @@
             if (selectedType === 'event') {
                 standardOptions.classList.add('hidden');
                 eventOptions.classList.remove('hidden');
-                adultOptions.classList.add('hidden');
-            } else if (selectedType === 'adult') {
-                standardOptions.classList.add('hidden');
-                eventOptions.classList.add('hidden');
-                adultOptions.classList.remove('hidden');
-                sessionPriceDisplay.textContent = "Desde $1000 MXN";
-                photosPriceRow.style.display = 'none';
-                totalPriceDisplay.textContent = "Desde $1000 MXN";
-                sessionTypeSummary.textContent = "Sesión +18:";
             } else if (selectedType === 'mascotas' || selectedType === 'producto') {
                 standardOptions.classList.add('hidden');
                 eventOptions.classList.add('hidden');
-                adultOptions.classList.add('hidden');
             } else {
                 standardOptions.classList.remove('hidden');
                 eventOptions.classList.add('hidden');
-                adultOptions.classList.add('hidden');
             }
             updatePrices();
 
@@ -737,21 +700,12 @@
                 message = `*Cotización de Pictoria*%0A%0A` +
                           `*Tipo de sesión:* Fotografía de Producto%0A` +
                           `*Costo estimado:* Desde ${sessionPriceDisplay.textContent}%0A%0A` +
-                          `Hola, me interesa reservar esta sesión. ¿Podemos coordinar los detalles?`;
-            } else if (selectedType === 'adult') {
-                const projectInfo = document.getElementById('adultProjectInfo').value || 'No se proporcionó información.';
-                message = `*Cotización de Pictoria*%0A%0A` +
-                    `*Tipo de sesión:* +18%0A%0A` +
-                    `*Descripción del proyecto:*%0A${projectInfo}%0A%0A` +
-                    `*Nota:* Esta sesión requiere cotización personalizada.%0A%0A`;
-            }
-            
-            // Common parts of the message
+                          `Hola, me interesa reservar esta sesión. ¿Podemos coordinar los detalles?`; } // Common parts of the message
             const sessionPrice = sessionPriceDisplay.textContent;
             const photosPrice = photosPriceDisplay.textContent;
             const totalPrice = totalPriceDisplay.textContent;
 
-            let finalMessage = (selectedType === 'mascotas' || selectedType === 'producto' || selectedType === 'adult') ? message : 
+            let finalMessage = (selectedType === 'mascotas' || selectedType === 'producto') ? message : 
                 message +
                 `*Sesión fotográfica:* ${sessionPrice}%0A` +
                 (selectedType !== 'event' ? `*Fotografías entregadas:* ${photosPrice}%0A` : '') +
